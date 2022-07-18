@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <title>My Google MAP</title>
+    <style>
+        /* #map {
+            height: 800px;
+            width: 100%;
+        } */
+    #map {
+        height: 90vh;
+        width: 90vw;
+        margin: 0 auto;
+    }
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+    </style>
+</head>
+<body>
+    <h1>My Google Map</h1>
+    <div id="map"></div>
+
+    <script>
+       
+        function initMap() {
+            // Map options
+            var options = {
+                zoom: 8,
+                center: {lat: 44.7279079, lng: 132.0367212}
+            };
+           
+            // New map
+            var map = new google.maps.Map(document.getElementById('map'), 
+                options
+            );
+
+            // Listen for click on map
+            google.maps.event.addListener(map, 'click', function(event) {
+                // Add marker
+                addMarker({coords: event.latLng});
+            });
+
+            // Array of markers
+            var markers = [
+            {
+              coords: {lat: 44.7279079, lng: 132.0367212},
+              icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png', 
+              content: "<h1>Kamen Rybolov<h1/>"
+              },
+                {
+                  coords: {lat: 55.7558, lng: 37.6173}, 
+              content: "<h1>Moscow<h1/>"
+              },
+                {
+                  coords: {lat: -31.63333, lng: -60.7},
+              }
+
+            ]
+
+            // Loop through markers
+            for(var i = 0; i < markers.length; i++){
+              // Add marker 
+                addMarker(markers[i]);
+            }
+           
+
+            // Add marker function 
+            function addMarker(props) {
+                var marker = new google.maps.Marker({
+                    position: props.coords,
+                    map: map, 
+                    icon: props.iconImage
+                });
+                // Check for customicon
+                if (props.iconImage) {
+                  // Set icon image
+                    marker.setIcon(props.iconImage);
+                }
+                if(props.content) {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: props.content
+                    });
+                    marker.addListener('click', function() {
+                        infoWindow.open(map, marker);
+                    });
+                }
+            }
+            
+            // // Add marker
+            // var marker = new google.maps.Marker({
+            //     position: {lat: 44.7279079, lng: 132.0367212},
+            //     map: map,
+            //     icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            //     title: 'My Google Map'
+                
+            // });
+            // // Information about the place
+            // var infoWindow = new google.maps.infoWindow({
+            //     content: '<h1>Kamen-Rybolov</h1>'
+            // })
+            // // Open info window popup
+            // marker.addListener('click', function() {
+            //     infoWindow.open(map, marker);
+            // });
+          }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB13J-zqABJ1aj1y8Pkqy9AGgHBejgS6EY&callback=initMap"
+  ></script>
+</body>
+</html>
